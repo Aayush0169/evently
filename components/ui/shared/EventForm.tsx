@@ -305,4 +305,3 @@ const EventForm = ({ userId, type }: EventFormProps) => {
 
 export default EventForm;
 
-//2:33:55
