@@ -7,7 +7,8 @@ import Image from "next/image"
 
 type EventDetailsPageProps = {
   params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { 
+    [key: string]: string | string[] | undefined };
 }
 
 const EventDetails = async ({params:{id},searchParams}:EventDetailsPageProps) => {
