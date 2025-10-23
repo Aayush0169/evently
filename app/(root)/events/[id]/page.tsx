@@ -2,20 +2,22 @@ import CheckoutButton from "@/components/shared/CheckoutButton"
 import Collection from "@/components/shared/Collection"
 import { getEventById, getRelatedEventsByCategory } from "@/lib/actions/event.action"
 import { formatDateTime } from "@/lib/utils"
-import { SearchParamProps } from "@/types"
 import Image from "next/image"
+import { SearchParamProps } from "@/types"
 
 
-const EventDetails = async ({ params, searchParams }: SearchParamProps) => {
-  const { id } = params; 
+const EventDetails = async (props: SearchParamProps) => {
+  const { params, searchParams } = props;
+  const { id } = await params;
+  const actualSearchParams = await searchParams;
 
   const event = await getEventById(id);
 
-  const relatedEvents = await getRelatedEventsByCategory({
-    categoryId: event.category._id,
-    eventId: event._id,
-    page: searchParams.page as string,
-  });
+ const relatedEvents = await getRelatedEventsByCategory({
+  categoryId: event.category._id,
+  eventId: event._id,
+  page: actualSearchParams.page as string,
+});
 
   return (
     <>
