@@ -47,4 +47,3 @@ const Checkout = ({event,userId}:{event:IEvent,userId:string}) => {
 }
 
 export default Checkout
-//4.47.10

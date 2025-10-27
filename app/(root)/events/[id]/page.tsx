@@ -3,7 +3,6 @@ import Collection from "@/components/shared/Collection"
 import { getEventById, getRelatedEventsByCategory } from "@/lib/actions/event.action"
 import { formatDateTime } from "@/lib/utils"
 import Image from "next/image"
-import { SearchParamProps } from "@/types"
 
 
 const EventDetails = async (props: PageProps<'/events/[id]'>)=> {
@@ -96,8 +95,8 @@ const EventDetails = async (props: PageProps<'/events/[id]'>)=> {
       emptyStateSubtext="Come back later"
       collectionType="All_Events"
       limit={6}
-      page={1}
-      totalPages={2}
+      page={searchParams.page as string}
+      totalPages={relatedEvents?.totalPages}
       />
     </section>
     </>

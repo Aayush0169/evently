@@ -4,7 +4,7 @@ import { UploadThingError } from "uploadthing/server";
 const f = createUploadthing();
 
 const auth = async (req: Request) => {
-  return { id: "fakeId" }; // Hardcoded user
+  return { id: "fakeId" }; 
 };
 
 export const ourFileRouter = {

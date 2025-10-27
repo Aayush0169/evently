@@ -1,15 +1,24 @@
 import Collection from '@/components/shared/Collection'
 import { Button } from '@/components/ui/button'
 import { getEventsByUser } from '@/lib/actions/event.action'
+import { getOrdersByUser } from '@/lib/actions/order.actions'
+import { IOrder } from '@/lib/database/models/order.model'
 import { auth } from '@clerk/nextjs/server'
 import Link from 'next/link'
 import React from 'react'
 
-const ProfilePage = async () => {
-    const {sessionClaims}= await auth();
-    const userId= sessionClaims?.userId as string;
+const ProfilePage = async (props: PageProps<'/profile'>) => {
+  const { sessionClaims } = await auth();
+  const userId = sessionClaims?.userId as string;
+  const searchParams = await props.searchParams;
 
-    const organizedEvents=await getEventsByUser({userId,page:1})
+  const ordersPage = Number(searchParams?.ordersPage) || 1;
+  const eventsPage = Number(searchParams?.eventsPage) || 1;
+
+  const orders = await getOrdersByUser({ userId, page: ordersPage });
+  const orderedEvents = orders?.data.map((order: IOrder) => order.event) || [];
+
+    const organizedEvents=await getEventsByUser({userId,page:eventsPage})
   return (
     <>
     {/* my tickets */}
@@ -26,18 +35,17 @@ const ProfilePage = async () => {
         </div>
     </section>
 
-    {/* <section className="wrapper my-8">
+    <section className="wrapper my-8">
         <Collection
-        data={events?.data}
+        data={orderedEvents}
         emptyTitle="no event purchased"
         emptyStateSubtext="Plenty of events to explore"
         collectionType="My_Tickets"
         limit={3}
-        page={1}
-        urlParaName="ordersPage"
-        totalPages={2}
+        page={ordersPage}
+        totalPages={orders?.totalPages}
         />
-    </section> */}
+    </section>
 
     {/* events organized */}
     <section className="bg-dotted-pattern bg-cover
@@ -60,8 +68,8 @@ const ProfilePage = async () => {
         emptyStateSubtext="Go create a new event"
         collectionType="Events_Organized"
         limit={6}
-        page={1}
-        totalPages={2}
+        page={eventsPage}
+        totalPages={organizedEvents?.totalPages}
         />
     </section>
     </>
@@ -69,4 +77,3 @@ const ProfilePage = async () => {
 }
 
 export default ProfilePage
-//4.29.00
