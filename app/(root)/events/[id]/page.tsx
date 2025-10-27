@@ -3,6 +3,7 @@ import Collection from "@/components/shared/Collection"
 import { getEventById, getRelatedEventsByCategory } from "@/lib/actions/event.action"
 import { formatDateTime } from "@/lib/utils"
 import Image from "next/image"
+import Link from "next/link"
 
 
 const EventDetails = async (props: PageProps<'/events/[id]'>)=> {
@@ -75,8 +76,10 @@ const EventDetails = async (props: PageProps<'/events/[id]'>)=> {
           <div className="flex flex-col gap-2">
             <p className="font-bold text-lg text-gray-600">Desctiption:</p>
             <p className="font-normal lg:font-normal">{event.description}</p>
+            <Link href={event.url}>
             <p className="font-normal lg:font-normal text-lg
              truncate underline text-blue-400">{event.url}</p>
+            </Link>
           </div>
          </div>
       </div>
